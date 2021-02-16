@@ -13,17 +13,19 @@ const App = () => {
   const [weatherError, setErrorMessage] = useState(null);
   const [lat, setLat] = useState(25);
   const [lon, setLon] = useState(25);
-  navigator.geolocation.getCurrentPosition((position) => {
-    setLat(position.coords.latitude);
-    setLon(position.coords.longitude);
-  });
+
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLon(position.coords.longitude);
+    });
     const getWeather = async () => {
       const result = await fetchWeather(lat, lon)
-      console.log(result)
+      setData(result.data)
+     /*  console.log(data); */
     };
     getWeather();
-  });
+  }, [lat, lon]);
   async function fetchWeather(lat, lon) {
     try {
       const apiResp = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`);
