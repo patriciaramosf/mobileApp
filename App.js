@@ -3,16 +3,21 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { API_KEY } from './utils/apiWeatherKey';
-import Weather from './components/Weather'
 import { LinearGradient } from 'expo-linear-gradient';
+import Weather from './components/Weather';
+import Navbar from './components/Navbar';
 
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
   const [weatherError, setErrorMessage] = useState(null);
   const [lat, setLat] = useState(25);
   const [lon, setLon] = useState(25);
+  const [temperature, setTemperature] = useState(null);
+  const [minTemperature, setMinTemperature] = useState(null);
+  const [maxTemperature, setMaxTemperature] = useState(null);
+  const [weatherCondition, setWeatherCondition] = useState(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -23,8 +28,12 @@ const App = () => {
       setIsLoading(true)
       try {
         const result = await fetchWeather(lat, lon)
-        setData(result.data)
-        console.log(data);
+        setWeatherData(result.data)
+        setTemperature(weatherData.main.temp)
+        setMaxTemperature(weatherData.main.temp_max)
+        setMinTemperature(weatherData.main.temp_min)
+        setWeatherCondition(weatherData.weather[0].main)
+        console.log(weatherData);
       } catch (error) {
         console.dir(error)
         weatherError
@@ -46,14 +55,14 @@ const App = () => {
   return (
     <View style={styles.container} >
       <LinearGradient
-        // Background Linear Gradient
         colors={['#72EDF2', '#5151E5', ]}
         style={styles.linearGradient}
       > 
+      <Navbar/>
       {isLoading ?
         <Text>Fetching The Weather</Text>
         :
-        <Weather weather={data.weather[0].main} temperature={data.main.temp} />
+        <Weather weather={weatherCondition} temperature={temperature} minTemperature={minTemperature} maxTemperature={maxTemperature} />
       }
       </LinearGradient>
     </View>

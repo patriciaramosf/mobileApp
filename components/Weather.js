@@ -2,49 +2,69 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Weather = ({ weather, temperature }) => {
+const Weather = ({ weather, temperature, maxTemperature, minTemperature }) => {
   return (
     <View style={styles.weatherContainer}>
+      <View style={styles.left}>
       <View style={styles.headerContainer}>
-        <MaterialCommunityIcons size={48} name="weather-sunny" color={'#fff'} />
-        <Text style={styles.tempText}>Temperature˚ {temperature}</Text>
-      </View>
-      <View style={styles.bodyContainer}>
+        <MaterialCommunityIcons size={68} name="weather-cloudy" color={'#fff'} />
         <Text style={styles.title}>{weather}</Text>
-        <Text style={styles.subtitle}></Text>
       </View>
+        <Text style={styles.tempText}>{ temperature && temperature.toFixed(0) }˚</Text>
+      </View>
+      <View style={styles.left}>
+      <View style={styles.asideContainer}>
+        <Text style={styles.tempAditionalText1}>{ maxTemperature && maxTemperature.toFixed(0) }˚</Text>
+        <Text style={styles.tempAditionalText2}>{ minTemperature && minTemperature.toFixed(0) }˚</Text>
+      </View>
+      </View>
+    
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   weatherContainer: {
-    flex: 1,
+    flex: 4,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'flex-start',
   },
-  headerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+  left:{
+    marginLeft:40,
+    marginRight:30
+  },
+  right:{
+  },
+  headerContainer:{
+    flexDirection: 'row',
+  },
+  asideContainer: {
+    flexDirection: 'column',
+    marginTop:135,
+  },
+  temperatures:{
+    flexDirection: 'row'
   },
   tempText: {
-    fontSize: 48,
+    fontSize: 158,
     color: '#fff'
   },
-  bodyContainer: {
-    flex: 2,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-    paddingLeft: 25,
-    marginBottom: 40
+  tempAditionalText1:{
+    borderBottomColor: 'white',
+    borderBottomWidth: 1,
+    fontSize: 38,
+    color: '#fff'
   },
+  tempAditionalText2: {
+    fontSize: 38,
+    color: '#fff'
+  },
+
   title: {
     fontSize: 48,
     color: '#fff'
   },
-  subtitle: {
-    fontSize: 24,
-    color: '#fff'
-  }
 });
 
 export default Weather;
