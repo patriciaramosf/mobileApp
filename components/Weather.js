@@ -20,7 +20,6 @@ const Weather = () => {
 const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
-    backgroundColor: '#f7b733'
   },
   headerContainer: {
     flex: 1,

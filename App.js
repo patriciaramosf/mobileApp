@@ -27,6 +27,7 @@ const App = () => {
         console.log(data);
       } catch (error) {
         console.dir(error)
+        weatherError
       }
       setIsLoading(false)
     };
@@ -43,17 +44,18 @@ const App = () => {
     }
   }
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <LinearGradient
         // Background Linear Gradient
-        colors={['rgba(0,0,0,0.8)', 'transparent']}
-        style={styles.background}
-      />
+        colors={['#72EDF2', '#5151E5', ]}
+        style={styles.linearGradient}
+      > 
       {isLoading ?
         <Text>Fetching The Weather</Text>
         :
         <Weather />
       }
+      </LinearGradient>
     </View>
   );
 }
@@ -63,13 +65,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    
   },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 300,
+  linearGradient: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.95,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
