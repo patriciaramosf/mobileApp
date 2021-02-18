@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { API_KEY } from './utils/apiWeatherKey';
 import Weather from './components/Weather'
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const App = () => {
@@ -20,31 +20,40 @@ const App = () => {
       setLon(position.coords.longitude);
     });
     const getWeather = async () => {
-      const result = await fetchWeather(lat, lon)
-      setData(result.data)
-     /*  console.log(data); */
+      setIsLoading(true)
+      try {
+        const result = await fetchWeather(lat, lon)
+        setData(result.data)
+        console.log(data);
+      } catch (error) {
+        console.dir(error)
+      }
+      setIsLoading(false)
     };
     getWeather();
   }, [lat, lon]);
   async function fetchWeather(lat, lon) {
     try {
       const apiResp = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`);
-       return apiResp
+      return apiResp
     } catch (error) {
       console(error)
       setErrorMessage('Error Gettig Weather Condtions')
-      
+
     }
   }
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['rgba(0,0,0,0.8)', 'transparent']}
+        style={styles.background}
+      />
+      {isLoading ?
         <Text>Fetching The Weather</Text>
-      ) : (
-          <View>
-            <Text>Minimalist Weather App</Text>
-          </View>
-        )}
+        :
+        <Weather />
+      }
     </View>
   );
 }
@@ -54,17 +63,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: 'orange',
   },
-  welcome: {
-    fontSize: 24,
-    textAlign: 'center',
-    margin: 10,
-    color: 'white',
-  },
-  instructions: {
-    textAlign: 'center',
-    color: 'white',
-    marginBottom: 5,
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 300,
   },
 });
