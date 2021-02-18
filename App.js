@@ -53,7 +53,7 @@ const App = () => {
       {isLoading ?
         <Text>Fetching The Weather</Text>
         :
-        <Weather />
+        <Weather weather={data.weather[0].main} temperature={data.main.temp} />
       }
       </LinearGradient>
     </View>
