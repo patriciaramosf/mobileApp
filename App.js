@@ -14,6 +14,8 @@ const App = () => {
   const [weatherError, setErrorMessage] = useState(null);
   const [lat, setLat] = useState(25);
   const [lon, setLon] = useState(25);
+  const [city, setCity] = useState(null);
+  const [time, setTime] = useState(null);
   const [temperature, setTemperature] = useState(null);
   const [minTemperature, setMinTemperature] = useState(null);
   const [maxTemperature, setMaxTemperature] = useState(null);
@@ -33,7 +35,8 @@ const App = () => {
         setMaxTemperature(weatherData.main.temp_max)
         setMinTemperature(weatherData.main.temp_min)
         setWeatherCondition(weatherData.weather[0].main)
-        console.log(weatherData);
+        setCity(weatherData.name)
+        console.log(weatherData)
       } catch (error) {
         console.dir(error)
         weatherError
@@ -58,7 +61,7 @@ const App = () => {
         colors={['#72EDF2', '#5151E5', ]}
         style={styles.linearGradient}
       > 
-      <Navbar/>
+      <Navbar city={city}/>
       {isLoading ?
         <Text>Fetching The Weather</Text>
         :
